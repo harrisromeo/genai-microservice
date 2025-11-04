@@ -19,3 +19,10 @@ class EmbedResponse(BaseModel):
     vectors: List[list[float]]
     dim: int
     model: str
+
+class RootModel(BaseModel):
+    status: str
+    message: str
+
+class HealthModel(BaseModel):
+    status: str

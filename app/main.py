@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Response
 from prometheus_client import Counter, generate_latest
-from .schemas import ChatRequest, ChatResponse, EmbedRequest, EmbedResponse
+from .schemas import ChatRequest, ChatResponse, EmbedRequest, EmbedResponse, RootModel, HealthModel
 from .service import generate_chat, embed_texts
 
 app = FastAPI(title="GenAI Microservice")
@@ -23,3 +23,11 @@ async def embed(body: EmbedRequest) -> EmbedResponse:
 @app.get("/metrics")
 async def metrics() -> Response:
     return Response(generate_latest(), media_type="text/plain")
+
+@app.get("/", response_model=RootModel)
+async def root() -> RootModel:
+    return RootModel(status="ok", message="GenAI microservice running. See /docs.")
+
+@app.get("/healthz", response_model=HealthModel)
+async def healthz() -> HealthModel:
+    return HealthModel(status="healthy")
