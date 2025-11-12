@@ -1,10 +1,11 @@
-from pydantic import BaseModel, Field
-from typing import List, Optional
+from __future__ import annotations
+from pydantic import BaseModel
+
 
 class ChatRequest(BaseModel):
-    prompt: str = Field(min_length=1)
-    system: Optional[str] = None
-    max_tokens: int = 512
+    prompt: str
+    max_tokens: int = 128
+
 
 class ChatResponse(BaseModel):
     text: str
@@ -12,17 +13,21 @@ class ChatResponse(BaseModel):
     output_tokens: int
     model: str
 
+
 class EmbedRequest(BaseModel):
-    texts: List[str]
+    texts: list[str]
+
 
 class EmbedResponse(BaseModel):
-    vectors: List[list[float]]
+    vectors: list[list[float]]
     dim: int
     model: str
 
-class RootModel(BaseModel):
-    status: str
-    message: str
 
-class HealthModel(BaseModel):
-    status: str
+__all__ = [
+    "ChatRequest",
+    "ChatResponse",
+    "EmbedRequest",
+    "EmbedResponse",
+]
+
