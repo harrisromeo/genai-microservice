@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Final
+from typing import Literal,Final
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     max_tokens_limit: int = Field(default=2048, validation_alias="MAX_TOKENS_LIMIT")
     prompt_max_chars: int = Field(default=4000, validation_alias="PROMPT_MAX_CHARS")
 
-    llm_provider: str | None = None
+    llm_provider: Literal["dummy", "openai"] = "dummy"
     llm_base_url: str | None = None
     llm_api_key: str | None = None
     llm_model: str | None = None
@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
-        extra = "ignore"  # just in case new vars appear later
+        extra = "ignore"  # just in case new vars is inserted later
 
 
 settings: Final[Settings] = Settings()
